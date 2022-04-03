@@ -1,23 +1,39 @@
 import { GetStaticProps } from "next";
+interface responseDataProps {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+interface ResponseData {
+  response: [responseDataProps];
+}
 
-export default function Home({ res }: any) {
+export default function Home({ response }: ResponseData) {
   return (
-    <div>
-      <h3>{res.name}</h3>
-      <h3>{res.html_url}</h3>
-      <h3>{res.blog}</h3>
-      <h3>{res.bio}</h3>
-    </div>
+    <>
+      {response.map((item: responseDataProps) => {
+        return (
+          <div key={item.id}>
+            <p>{item.id}</p>
+            <p>{item.name}</p>
+            <p>{item.username}</p>
+            <p>{item.email}</p>
+            <span>------------------------</span>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch("https://jsonplaceholder.typicode.com");
+  const response = await fetch("https://jsonplaceholder.typicode.com/users");
   const data = await response.json();
 
   return {
     props: {
-      res: data,
+      response: data,
     },
     revalidate: 10,
   };
