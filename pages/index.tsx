@@ -12,7 +12,7 @@ export default function Home({ res }: any) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch("https://api.github.com/users/leoff00");
+  const response = await fetch("https://jsonplaceholder.typicode.com");
   const data = await response.json();
 
   return {
